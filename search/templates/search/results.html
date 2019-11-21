@@ -1,0 +1,96 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html ⚡ lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Results</title>
+
+    <!-- Amp -->
+    <!-- <script async src="https://cdn.ampproject.org/v0.js"></script> -->
+
+    <!-- JQuery | important to be at the top -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'css/search.style.css' %}">
+    <script src="{% static 'js/search.js' %}"></script>
+
+</head>
+<body>
+    <!-- Sort -->
+    <!-- <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort By
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Activity</a>
+            <a class="dropdown-item" href="#">Another action</a>
+        </div>
+    </div> -->
+    <!-- /Sort -->
+
+    <!-- Order -->
+    <!-- <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Orber By
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Ascending</a>
+            <a class="dropdown-item" href="#">Descing</a>
+        </div>
+    </div> -->
+    <!-- /Sort -->
+
+    <div class="results-container container-fluid">
+        <div class="row search-bar">
+            <form action="search" method="get" class="search-form">
+                <input id="search-bar" class="search-bar form-control-lg" type="text" name="q" placeholder="search stackoverflow . . . ">
+            </form>
+        </div>
+
+        <div class="row search-row">
+            <div class="answers-container">
+                {% if questions %}
+                    {% for question in questions %}
+                        {% if question.is_answered and question.accepted_answer_id %}
+                                <div class="card answer-card">
+                                    <!-- <img class="card-img" src="..." alt="Card image"> -->
+                                    <div class="card-body">
+                                        <a class="" href="https://stackoverflow.com/a/{{ question.accepted_answer_id }}" target="_blank">
+                                            <h5 class="card-title"> {{ question.title }}</h5>
+
+                                        <h6 class="card-subtitle mb-2 text-muted">{{ question.answer_count }} answers</h6>
+                                    </a>
+                                        <!-- <samp>{{ answer.body }}</samp> -->
+                                        <!-- <div class="card-text">{{ question.body | safe | truncatechars:250 }}</div> -->
+                                        <!-- <a href="#" class="card-link">{{ answer.owner.display_name }}</a>
+                                        <a href="#" class="card-link">{{ answer.is_answered }}</a> -->
+                                    </div>
+                                    <div class="card-body">
+                                        {% autoescape on %}
+                                            {{ question.body | safe | striptags | truncatewords:30 }}
+                                        {% endautoescape %}
+                                        <a href="https://stackoverflow.com/q/{{ question.question_id }}" target="_blank" rel="noopener noreferrer">read more</a>
+                                        <!-- {{ question.body | safe | truncatechars:250 }} -->
+                                    </div>
+                                    <div class="card-body">
+                                        <a href=" https://stackoverflow.com/a/{{ question.accepted_answer_id }}" class="btn btn-success">View Answer</a>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
