@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html ⚡ lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stackanswers</title>
+
+    <!-- Amp -->
+    <!-- <script async src="https://cdn.ampproject.org/v0.js"></script> -->
+
+    <!-- JQuery | important to be at the top -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'css/web.style.css' %}">
+    <script src="{% static 'js/app.js' %}"></script>
+
+</head>
+<body>
+
+    <div class="container container-fluid">
+        <div class="row">
+            <h4>StackAnswer</h4>
+        </div>
+
+        <div class="row search-row">
+            <form action="search" method="get" class="search-form">
+                <input class="search-box form-control-lg" type="text" name="q" placeholder="search stackoverflow . . . " autofocus>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+        <div class="container text-center">
+            <small>Copyright &copy; Stackanswers</small>
+        </div>
+    </footer>
+
+
+</body>
+</html>
