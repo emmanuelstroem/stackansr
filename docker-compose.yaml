@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    env_file:
+     - ./.env
+    command: sh docker-entrypoint.sh
+    container_name: web
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    # depends_on:
+    #   - db
+  # db:
+  #   image: postgres
+  #   container_name: Postgres
+  #   volumes:
+  #     - ./db_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: tenlines
+  #     # POSTGRES_USER: tenlines
+  #     POSTGRES_PASSWORD: sergtsop
+
+# volumes:
+#   db_data:
+#     driver: local
