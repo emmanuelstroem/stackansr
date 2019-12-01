@@ -4,14 +4,14 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--build-arg', 'project_id=$PROJECT_ID', '-t', 'gcr.io/$PROJECT_ID/${_APP_}:${_ENV_}-$BRANCH_NAME-$SHORT_SHA', '-t', 'gcr.io/$PROJECT_ID/${_APP_}:${_ENV_}-latest', '.']
 
-- id: Run Migrations Job
-  name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'migrations-job.yaml']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=${_REGION_}'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=${_APP_}-${_REGION_}-cluster'
-  waitFor:
-  - 'Build Docker Image'
+# - id: Run Migrations Job
+#   name: 'gcr.io/cloud-builders/kubectl'
+#   args: ['apply', '-f', 'migrations-job.yaml']
+#   env:
+#   - 'CLOUDSDK_COMPUTE_ZONE=${_REGION_}'
+#   - 'CLOUDSDK_CONTAINER_CLUSTER=${_APP_}-${_REGION_}-cluster'
+#   waitFor:
+#   - 'Build Docker Image'
 
 # - id: Rollout Depployment to GKE
 #   name: 'gcr.io/cloud-builders/kubectl'
