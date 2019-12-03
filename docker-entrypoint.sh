@@ -2,7 +2,9 @@
 
 # # Collect static files
 # echo "Collect static files"
-# python manage.py collectstatic --noinput
+mkdir static
+
+python manage.py collectstatic --noinput
 
 set -e
 
