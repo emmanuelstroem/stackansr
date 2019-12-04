@@ -19,6 +19,15 @@ div.answer-card > div.card-body > p > img {
     max-width: 200px;
 }
 
+div.answer-card > div.card-body *  img {
+    max-width: 200px;
+    /* display: none; */
+}
+
+div.card-text {
+    color: black
+}
+
 .results-container {
     display: flex;
     align-items: center;

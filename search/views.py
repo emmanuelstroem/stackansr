@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import requests, json, os
 
@@ -9,7 +10,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
 from . import helpers
-from api.Helpers import get_answers
+from api.Helpers import get_questions
 
 # Create your views here.
 def index(request):
@@ -17,39 +18,30 @@ def index(request):
 
 def search(request, *args, **kwargs):
     question = request.GET.get('q')
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
+    page_size = request.GET.get('page_size', 20)
+    next_page = int(page) + 1
+    previous_page = int(page) - 1
 
-    params = {
-            'question': question,
-            'page': page
-        }
+    # url = "http://"+request.get_host()+"/api/search"
+    # local_json_data = read_local_file('/search/answers.json')
+    questions = get_questions(question, page, page_size).json()
 
-    url = "http://"+request.get_host()+"/api/search"
+    pages = {
+        'current': page,
+        'next': next_page,
+        'previous': previous_page,
+        'question': question,
+        'range': range(1, int(questions['total']/20)),
+        'total': questions['total']/20
 
-    local_json_data = read_local_file('/search/answers.json')
-
-    # response = requests.get(url, params)
-
-    # answers = get_answers(question, page)
-
-    # print(local_json_data["items"][0])
-
-    content = {
-        'question': question
     }
-    # return Response(answers.content)
-    return render(request, 'search/test.html', {'questions': local_json_data["items"]} )
-    # return Response(content, template_name='search/results.html')
+
+    return render(request, 'search/results.html', {'questions': questions['items'], 'has_more': questions['has_more'], 'total': questions['total'], 'pages': pages})
 
 def read_local_file(file_name):
-
     file_path = os.path.dirname(os.path.dirname(__file__)) + file_name
     with open(file_path, 'r') as json_file:
-    # my_json_obj = json.load(f)
-    # open_file = open(file_name)
         loaded_data = json.load(json_file) # deserialises it
         dumped_data = json.dumps(loaded_data) # json formatted string
-
-    # open_file.close()
-
         return loaded_data

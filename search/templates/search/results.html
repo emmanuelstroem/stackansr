@@ -22,6 +22,24 @@
     <link rel="stylesheet" href="{% static 'css/search.style.css' %}">
     <script src="{% static 'js/search.js' %}"></script>
 
+    <!-- JS Page Variables -->
+    <script>
+        var pages = "{{ pages }}";
+        var total_pages = "{{ pages.total }}";
+        var questions_per_pages = "{{ pages.questions_per_page }}";
+        var current_page = "{{ pages.current }}";
+        var next_page = "{{ pages.next }}";
+        var previous_page = "{{ pages.previous }}";
+
+        // console.log(current_page)
+        // $('#page-content').text('Page ' + current_page);
+    </script>
+    <!-- <script src="{% static 'js/jquery.simplePagination.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/simplePagination.css' %}"> -->
+
+    <!-- twbs pagination  -->
+    <script src="{% static 'js/jquery.twbsPagination.min.js' %}"></script>
+
 </head>
 <body>
     <!-- Sort -->
@@ -49,36 +67,34 @@
     <!-- /Sort -->
 
     <div class="results-container container-fluid">
+        <!-- Search Bar -->
         <div class="row search-bar">
             <form action="search" method="get" class="search-form">
                 <input id="search-bar" class="search-bar form-control-lg" type="text" name="q" placeholder="search stackoverflow . . . ">
             </form>
         </div>
+        <!-- Search Bar -->
 
+        <!-- Questions -->
         <div class="row search-row">
             <div class="answers-container">
                 {% if questions %}
                     {% for question in questions %}
-                        {% if question.is_answered and question.accepted_answer_id %}
+                        {% if question.is_answered and question.accepted_answer_id%}
                                 <div class="card answer-card">
                                     <!-- <img class="card-img" src="..." alt="Card image"> -->
                                     <div class="card-body">
                                         <a class="" href="https://stackoverflow.com/a/{{ question.accepted_answer_id }}" target="_blank">
-                                            <h5 class="card-title"> {{ question.title }}</h5>
+                                            <h5 class="card-title"> {{ question.title | safe }}</h5>
+                                        </a>
 
                                         <h6 class="card-subtitle mb-2 text-muted">{{ question.answer_count }} answers</h6>
-                                    </a>
                                         <!-- <samp>{{ answer.body }}</samp> -->
-                                        <!-- <div class="card-text">{{ question.body | safe | truncatechars:250 }}</div> -->
-                                        <!-- <a href="#" class="card-link">{{ answer.owner.display_name }}</a>
-                                        <a href="#" class="card-link">{{ answer.is_answered }}</a> -->
-                                    </div>
-                                    <div class="card-body">
-                                        {% autoescape on %}
-                                            {{ question.body | safe | striptags | truncatewords:30 }}
-                                        {% endautoescape %}
-                                        <a href="https://stackoverflow.com/q/{{ question.question_id }}" target="_blank" rel="noopener noreferrer">read more</a>
-                                        <!-- {{ question.body | safe | truncatechars:250 }} -->
+                                        <div class="card-text">
+                                            {{ question.body | safe | striptags| truncatewords:30 }}
+                                            <a href="https://stackoverflow.com/q/{{ question.question_id }}" target="_blank" rel="noopener noreferrer">read more</a>
+                                        </div>
+
                                     </div>
                                     <div class="card-body">
                                         <a href=" https://stackoverflow.com/a/{{ question.accepted_answer_id }}" class="btn btn-success">View Answer</a>
@@ -89,7 +105,52 @@
                 {% endif %}
             </div>
         </div>
+        <!-- Questions -->
 
+        <div class="row paginator-row">
+            <nav aria-label="Page navigation flex-wrap">
+                <!-- {% if has_more %}
+
+                    <ul class="pagination">
+
+                      {% if pages.current > 1 %}
+                        <li><a href="?q={{ pages.question }}&page={{ pages.previous }}">&laquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                      {% endif %}
+
+                      {% for i in pages.range %}
+                        {% if pages.current == i %}
+                          <li class="active page-item"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                          <li class="page-item"><a href="?q={{ pages.question }}&page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+
+                      {% if has_more %}
+                        <li><a href="?q={{ pages.question }}&page={{ pages.next}}">&raquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                      {% endif %}
+
+                    </ul>
+
+                {% endif %} -->
+
+                <!-- <ul class="pagination">
+                    {% if has_more %}
+
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="/search?q=">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    {% endif %}
+                </ul> -->
+            </nav>
+
+            <nav aria-label="Page navigation example"></nav>
+                <ul id="pagination" class="pagination-sm pagination-circle"></ul>
+            </nav>
+        </div>
     </div>
 
 </body>
