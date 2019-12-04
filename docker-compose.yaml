@@ -9,10 +9,20 @@ services:
     container_name: web
     volumes:
       - .:/app
+      - ./static:/app/static
     ports:
-      - "4000:4000"
+      - "80:4000"
     # depends_on:
-    #   - db
+    #   - nginx
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx/sites-available:/etc/nginx/conf.d
   # db:
   #   image: postgres
   #   container_name: Postgres

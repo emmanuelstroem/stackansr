@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# # Collect static files
-# echo "Collect static files"
-mkdir static
-
-python manage.py collectstatic --noinput
-
 set -e
 
 #  Install Requirements
@@ -32,6 +26,11 @@ python manage.py migrate
 # echo "Create Admin User"
 # python manage.py createsuperuser --username admin --password s3cur3 --noinput --email 'info@10lines.eu'
 # python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('janno', 'info@10lines.com', 'KingJanno')"
+
+# # Collect static files
+echo "Collect static files"
+mkdir -p static
+python manage.py collectstatic --noinput
 
 # Start server
 echo "Starting server"

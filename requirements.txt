@@ -8,3 +8,6 @@ djangorestframework>=3.10.3
 
 # HTTP Consumption
 requests>=2.22.0
+
+# Static Storage
+# django-storages>=1.8
